@@ -1,5 +1,13 @@
 import { Button } from "@/components/ui/button";
-import { Search, User, Bell, Menu } from "lucide-react";
+import { Search, User, Bell, Menu, ChevronDown } from "lucide-react";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu";
 
 const Header = () => {
   return (
@@ -13,10 +21,44 @@ const Header = () => {
             </div>
             
             {/* Navigation */}
-            <nav className="hidden md:flex space-x-6">
+            <nav className="hidden md:flex items-center space-x-6">
               <a href="#jobs" className="text-foreground hover:text-primary font-medium">Jobs</a>
               <a href="#companies" className="text-foreground hover:text-primary font-medium">Companies</a>
               <a href="#services" className="text-foreground hover:text-primary font-medium">Services</a>
+              
+              <NavigationMenu>
+                <NavigationMenuList>
+                  <NavigationMenuItem>
+                    <NavigationMenuTrigger className="text-foreground hover:text-primary font-medium">
+                      Reports
+                    </NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                      <div className="w-48 p-2">
+                        <NavigationMenuLink asChild>
+                          <a href="#job-posted" className="block px-3 py-2 text-sm text-foreground hover:bg-accent hover:text-accent-foreground rounded">
+                            Job Posted
+                          </a>
+                        </NavigationMenuLink>
+                        <NavigationMenuLink asChild>
+                          <a href="#search-resume" className="block px-3 py-2 text-sm text-foreground hover:bg-accent hover:text-accent-foreground rounded">
+                            Search Resume
+                          </a>
+                        </NavigationMenuLink>
+                        <NavigationMenuLink asChild>
+                          <a href="#usage" className="block px-3 py-2 text-sm text-foreground hover:bg-accent hover:text-accent-foreground rounded">
+                            Usage
+                          </a>
+                        </NavigationMenuLink>
+                        <NavigationMenuLink asChild>
+                          <a href="#report" className="block px-3 py-2 text-sm text-foreground hover:bg-accent hover:text-accent-foreground rounded">
+                            Report
+                          </a>
+                        </NavigationMenuLink>
+                      </div>
+                    </NavigationMenuContent>
+                  </NavigationMenuItem>
+                </NavigationMenuList>
+              </NavigationMenu>
             </nav>
           </div>
 
