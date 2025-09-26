@@ -13,6 +13,18 @@ export default {
       },
     },
     extend: {
+      backgroundImage: {
+        'primary-gradient': 'var(--primary-gradient)',
+        'hero-gradient': 'var(--hero-gradient)',
+      },
+      boxShadow: {
+        'card': 'var(--card-shadow)',
+        'hero': 'var(--hero-shadow)',
+      },
+      spacing: {
+        'section': 'var(--section-padding)',
+        'container': 'var(--container-padding)',
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
