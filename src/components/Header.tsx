@@ -35,7 +35,7 @@ const Header = () => {
                     <NavigationMenuContent>
                       <div className="w-48 p-2">
                         <NavigationMenuLink asChild>
-                          <a href="#job-posted" className="block px-3 py-2 text-sm text-foreground hover:bg-accent hover:text-accent-foreground rounded">
+                          <a href="/job-posted" className="block px-3 py-2 text-sm text-foreground hover:bg-accent hover:text-accent-foreground rounded">
                             Job Posted
                           </a>
                         </NavigationMenuLink>
