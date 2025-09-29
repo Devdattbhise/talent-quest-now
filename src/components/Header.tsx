@@ -8,8 +8,33 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
+import { useNavigate, Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 const Header = () => {
+  const navigate = useNavigate();
+  const [user, setUser] = useState<any>(null);
+
+  useEffect(() => {
+    const userData = localStorage.getItem("user");
+    if (userData) {
+      setUser(JSON.parse(userData));
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    setUser(null);
+    navigate("/");
+  };
+
+  const handleJobPostedClick = () => {
+    if (user) {
+      navigate("/job-posted");
+    } else {
+      navigate("/login");
+    }
+  };
   return (
     <header className="bg-background border-b sticky top-0 z-50">
       <div className="container mx-auto px-4 lg:px-8">
@@ -35,9 +60,12 @@ const Header = () => {
                     <NavigationMenuContent>
                       <div className="w-48 p-2">
                         <NavigationMenuLink asChild>
-                          <a href="/job-posted" className="block px-3 py-2 text-sm text-foreground hover:bg-accent hover:text-accent-foreground rounded">
+                          <button
+                            onClick={handleJobPostedClick}
+                            className="block px-3 py-2 text-sm text-foreground hover:bg-accent hover:text-accent-foreground rounded w-full text-left"
+                          >
                             Job Posted
-                          </a>
+                          </button>
                         </NavigationMenuLink>
                         <NavigationMenuLink asChild>
                           <a href="#search-resume" className="block px-3 py-2 text-sm text-foreground hover:bg-accent hover:text-accent-foreground rounded">
@@ -68,8 +96,25 @@ const Header = () => {
               <Bell className="h-5 w-5" />
             </Button>
             
-            <Button variant="outline">Login</Button>
-            <Button>Register</Button>
+            {user ? (
+              <>
+                <span className="text-sm text-muted-foreground">
+                  Welcome, {user.role.charAt(0).toUpperCase() + user.role.slice(1).replace('-', ' ')}
+                </span>
+                <Button variant="outline" onClick={handleLogout}>
+                  Logout
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button variant="outline" asChild>
+                  <Link to="/login">Login</Link>
+                </Button>
+                <Button asChild>
+                  <Link to="/register">Register</Link>
+                </Button>
+              </>
+            )}
             
             <Button variant="ghost" size="icon" className="md:hidden">
               <Menu className="h-5 w-5" />
