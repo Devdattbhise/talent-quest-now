@@ -301,42 +301,45 @@ const JobPosted = () => {
                 <Table>
                   <TableHeader>
                     <TableRow className="bg-primary hover:bg-primary">
-                      <TableHead className="text-primary-foreground font-semibold">Job ID</TableHead>
-                      <TableHead className="text-primary-foreground font-semibold">Manager / Recruiter</TableHead>
-                      <TableHead className="text-primary-foreground font-semibold">Job Role</TableHead>
-                      <TableHead className="text-primary-foreground font-semibold">Job Category</TableHead>
-                      <TableHead className="text-primary-foreground font-semibold">Job Type</TableHead>
-                      <TableHead className="text-primary-foreground font-semibold">Organization</TableHead>
-                      <TableHead className="text-primary-foreground font-semibold">Posted On</TableHead>
-                      <TableHead className="text-primary-foreground font-semibold">Valid To</TableHead>
-                      <TableHead className="text-primary-foreground font-semibold">Job Validation</TableHead>
-                      <TableHead className="text-primary-foreground font-semibold">Actions</TableHead>
+                      <TableHead className="text-primary-foreground font-semibold w-[80px]">Job ID</TableHead>
+                      <TableHead className="text-primary-foreground font-semibold min-w-[150px]">Manager / Recruiter</TableHead>
+                      <TableHead className="text-primary-foreground font-semibold min-w-[180px]">Job Role</TableHead>
+                      <TableHead className="text-primary-foreground font-semibold min-w-[120px]">Job Category</TableHead>
+                      <TableHead className="text-primary-foreground font-semibold min-w-[110px]">Job Type</TableHead>
+                      <TableHead className="text-primary-foreground font-semibold min-w-[130px]">Organization</TableHead>
+                      <TableHead className="text-primary-foreground font-semibold w-[110px]">Posted On</TableHead>
+                      <TableHead className="text-primary-foreground font-semibold w-[110px]">Valid To</TableHead>
+                      <TableHead className="text-primary-foreground font-semibold w-[120px] text-center">Status</TableHead>
+                      <TableHead className="text-primary-foreground font-semibold w-[80px] text-center">Actions</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {filteredJobs.length === 0 ? (
                       <TableRow>
-                        <TableCell colSpan={10} className="text-center text-muted-foreground py-8">
-                          No jobs found
+                        <TableCell colSpan={10} className="text-center text-muted-foreground py-12">
+                          <div className="flex flex-col items-center justify-center space-y-2">
+                            <p className="text-lg font-medium">No jobs found</p>
+                            <p className="text-sm">Try adjusting your filters</p>
+                          </div>
                         </TableCell>
                       </TableRow>
                     ) : (
                       filteredJobs.map((job) => (
                         <TableRow key={job.id} className="hover:bg-accent/50 transition-colors">
-                          <TableCell className="font-medium">{job.id}</TableCell>
-                          <TableCell>{job.manager}</TableCell>
-                          <TableCell className="font-medium">{job.role}</TableCell>
-                          <TableCell className="text-muted-foreground">{job.category}</TableCell>
-                          <TableCell className="text-muted-foreground">{job.type}</TableCell>
-                          <TableCell className="text-muted-foreground">{job.org}</TableCell>
-                          <TableCell className="text-muted-foreground">{job.posted}</TableCell>
-                          <TableCell className="text-muted-foreground">{job.validTo}</TableCell>
-                          <TableCell>
-                            <Badge className={`${getValidationBadge(job.validation)} text-white`}>
+                          <TableCell className="font-semibold text-foreground">{job.id}</TableCell>
+                          <TableCell className="font-medium">{job.manager}</TableCell>
+                          <TableCell className="font-semibold text-foreground">{job.role}</TableCell>
+                          <TableCell>{job.category}</TableCell>
+                          <TableCell>{job.type}</TableCell>
+                          <TableCell>{job.org}</TableCell>
+                          <TableCell className="text-sm">{job.posted}</TableCell>
+                          <TableCell className="text-sm">{job.validTo}</TableCell>
+                          <TableCell className="text-center">
+                            <Badge className={`${getValidationBadge(job.validation)} text-white font-medium`}>
                               {job.validation}
                             </Badge>
                           </TableCell>
-                          <TableCell>
+                          <TableCell className="text-center">
                             <Button 
                               size="sm" 
                               variant="ghost" 
@@ -372,45 +375,48 @@ const JobPosted = () => {
                 <Table>
                   <TableHeader>
                     <TableRow className="bg-primary hover:bg-primary">
-                      <TableHead className="text-primary-foreground font-semibold">Job ID</TableHead>
-                      <TableHead className="text-primary-foreground font-semibold">Manager / Recruiter</TableHead>
-                      <TableHead className="text-primary-foreground font-semibold">Job Role</TableHead>
-                      <TableHead className="text-primary-foreground font-semibold">Job Category</TableHead>
-                      <TableHead className="text-primary-foreground font-semibold">Job Type</TableHead>
-                      <TableHead className="text-primary-foreground font-semibold">Organization</TableHead>
-                      <TableHead className="text-primary-foreground font-semibold">Posted On</TableHead>
-                      <TableHead className="text-primary-foreground font-semibold">Valid To</TableHead>
-                      <TableHead className="text-primary-foreground font-semibold">Job Validation</TableHead>
+                      <TableHead className="text-primary-foreground font-semibold w-[80px]">Job ID</TableHead>
+                      <TableHead className="text-primary-foreground font-semibold min-w-[150px]">Manager / Recruiter</TableHead>
+                      <TableHead className="text-primary-foreground font-semibold min-w-[180px]">Job Role</TableHead>
+                      <TableHead className="text-primary-foreground font-semibold min-w-[120px]">Job Category</TableHead>
+                      <TableHead className="text-primary-foreground font-semibold min-w-[110px]">Job Type</TableHead>
+                      <TableHead className="text-primary-foreground font-semibold min-w-[130px]">Organization</TableHead>
+                      <TableHead className="text-primary-foreground font-semibold w-[110px]">Posted On</TableHead>
+                      <TableHead className="text-primary-foreground font-semibold w-[110px]">Valid To</TableHead>
+                      <TableHead className="text-primary-foreground font-semibold w-[120px] text-center">Status</TableHead>
                       {selectedJobType === "manager" && (
-                        <TableHead className="text-primary-foreground font-semibold">Actions</TableHead>
+                        <TableHead className="text-primary-foreground font-semibold w-[80px] text-center">Actions</TableHead>
                       )}
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {getDialogData().length === 0 ? (
                       <TableRow>
-                        <TableCell colSpan={selectedJobType === "manager" ? 10 : 9} className="text-center text-muted-foreground py-8">
-                          No jobs found
+                        <TableCell colSpan={selectedJobType === "manager" ? 10 : 9} className="text-center text-muted-foreground py-12">
+                          <div className="flex flex-col items-center justify-center space-y-2">
+                            <p className="text-lg font-medium">No jobs found</p>
+                            <p className="text-sm">Try adjusting your filters</p>
+                          </div>
                         </TableCell>
                       </TableRow>
                     ) : (
                       getDialogData().map((job) => (
                         <TableRow key={job.id} className="hover:bg-accent/50 transition-colors">
-                          <TableCell className="font-medium">{job.id}</TableCell>
-                          <TableCell>{job.manager}</TableCell>
-                          <TableCell className="font-medium">{job.role}</TableCell>
-                          <TableCell className="text-muted-foreground">{job.category}</TableCell>
-                          <TableCell className="text-muted-foreground">{job.type}</TableCell>
-                          <TableCell className="text-muted-foreground">{job.org}</TableCell>
-                          <TableCell className="text-muted-foreground">{job.posted}</TableCell>
-                          <TableCell className="text-muted-foreground">{job.validTo}</TableCell>
-                          <TableCell>
-                            <Badge className={`${getValidationBadge(job.validation)} text-white`}>
+                          <TableCell className="font-semibold text-foreground">{job.id}</TableCell>
+                          <TableCell className="font-medium">{job.manager}</TableCell>
+                          <TableCell className="font-semibold text-foreground">{job.role}</TableCell>
+                          <TableCell>{job.category}</TableCell>
+                          <TableCell>{job.type}</TableCell>
+                          <TableCell>{job.org}</TableCell>
+                          <TableCell className="text-sm">{job.posted}</TableCell>
+                          <TableCell className="text-sm">{job.validTo}</TableCell>
+                          <TableCell className="text-center">
+                            <Badge className={`${getValidationBadge(job.validation)} text-white font-medium`}>
                               {job.validation}
                             </Badge>
                           </TableCell>
                           {selectedJobType === "manager" && (
-                            <TableCell>
+                            <TableCell className="text-center">
                               <Button 
                                 size="sm" 
                                 variant="ghost" 
