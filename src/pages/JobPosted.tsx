@@ -21,6 +21,12 @@ import {
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Download, Plus, Eye } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 // Job data type
 interface JobReport {
@@ -111,6 +117,10 @@ const JobPosted = () => {
   const [jobTitleFilter, setJobTitleFilter] = useState("");
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
+  
+  // Dialog states
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [selectedJobType, setSelectedJobType] = useState<"manager" | "recruiter" | null>(null);
 
   useEffect(() => {
     const userData = localStorage.getItem("user");
@@ -173,6 +183,20 @@ const JobPosted = () => {
   const handleExport = () => {
     const filename = `${user?.role}_jobs.csv`;
     exportTableToCSV(filteredJobs, filename);
+  };
+
+  const handleViewJob = (jobType: "manager" | "recruiter") => {
+    setSelectedJobType(jobType);
+    setIsDialogOpen(true);
+  };
+
+  const getDialogData = () => {
+    if (selectedJobType === "manager") {
+      return managerJobs;
+    } else if (selectedJobType === "recruiter") {
+      return recruiterJobs;
+    }
+    return [];
   };
 
   if (!user) {
@@ -317,6 +341,7 @@ const JobPosted = () => {
                               size="sm" 
                               variant="ghost" 
                               className="h-8 w-8 p-0 hover:bg-primary/10"
+                              onClick={() => handleViewJob(job.login)}
                             >
                               <Eye className="h-4 w-4 text-primary" />
                             </Button>
@@ -331,6 +356,81 @@ const JobPosted = () => {
           </main>
         </div>
       </div>
+
+      {/* Interconnected View Dialog */}
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent className="max-w-7xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-bold">
+              {selectedJobType === "manager" ? "Manager" : "Recruiter"} Job Reports
+            </DialogTitle>
+          </DialogHeader>
+          
+          <div className="mt-4">
+            <div className="bg-card border rounded-lg shadow-sm overflow-hidden">
+              <div className="overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow className="bg-primary hover:bg-primary">
+                      <TableHead className="text-primary-foreground font-semibold">Job ID</TableHead>
+                      <TableHead className="text-primary-foreground font-semibold">Manager / Recruiter</TableHead>
+                      <TableHead className="text-primary-foreground font-semibold">Job Role</TableHead>
+                      <TableHead className="text-primary-foreground font-semibold">Job Category</TableHead>
+                      <TableHead className="text-primary-foreground font-semibold">Job Type</TableHead>
+                      <TableHead className="text-primary-foreground font-semibold">Organization</TableHead>
+                      <TableHead className="text-primary-foreground font-semibold">Posted On</TableHead>
+                      <TableHead className="text-primary-foreground font-semibold">Valid To</TableHead>
+                      <TableHead className="text-primary-foreground font-semibold">Job Validation</TableHead>
+                      {selectedJobType === "manager" && (
+                        <TableHead className="text-primary-foreground font-semibold">Actions</TableHead>
+                      )}
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {getDialogData().length === 0 ? (
+                      <TableRow>
+                        <TableCell colSpan={selectedJobType === "manager" ? 10 : 9} className="text-center text-muted-foreground py-8">
+                          No jobs found
+                        </TableCell>
+                      </TableRow>
+                    ) : (
+                      getDialogData().map((job) => (
+                        <TableRow key={job.id} className="hover:bg-accent/50 transition-colors">
+                          <TableCell className="font-medium">{job.id}</TableCell>
+                          <TableCell>{job.manager}</TableCell>
+                          <TableCell className="font-medium">{job.role}</TableCell>
+                          <TableCell className="text-muted-foreground">{job.category}</TableCell>
+                          <TableCell className="text-muted-foreground">{job.type}</TableCell>
+                          <TableCell className="text-muted-foreground">{job.org}</TableCell>
+                          <TableCell className="text-muted-foreground">{job.posted}</TableCell>
+                          <TableCell className="text-muted-foreground">{job.validTo}</TableCell>
+                          <TableCell>
+                            <Badge className={`${getValidationBadge(job.validation)} text-white`}>
+                              {job.validation}
+                            </Badge>
+                          </TableCell>
+                          {selectedJobType === "manager" && (
+                            <TableCell>
+                              <Button 
+                                size="sm" 
+                                variant="ghost" 
+                                className="h-8 w-8 p-0 hover:bg-primary/10"
+                                onClick={() => handleViewJob("recruiter")}
+                              >
+                                <Eye className="h-4 w-4 text-primary" />
+                              </Button>
+                            </TableCell>
+                          )}
+                        </TableRow>
+                      ))
+                    )}
+                  </TableBody>
+                </Table>
+              </div>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </SidebarProvider>
   );
 };
